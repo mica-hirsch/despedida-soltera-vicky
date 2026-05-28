@@ -1,11 +1,5 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAJQxPN1oyrKOGnlAXQ6Tbr7wjsAxXf-44",
+  apiKey: "AIzaSyAJQxPN1oyrKOGnlAQ6Tbr7wjsAxXf-44",
   authDomain: "despedida-soltera-vicky.firebaseapp.com",
   databaseURL: "https://despedida-soltera-vicky-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "despedida-soltera-vicky",
@@ -14,20 +8,25 @@ const firebaseConfig = {
   appId: "1:327665852322:web:923df803573c7e23795cfb"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Inicializar Firebase (VERSIÓN CORRECTA con scripts)
+firebase.initializeApp(firebaseConfig);
 
-// Escuchar cambios en tiempo real
+const db = firebase.database();
+
+// ESCUCHAR CAMBIOS EN TIEMPO REAL
 db.ref("imagen").on("value", (snapshot) => {
   let numero = snapshot.val();
+
   if (numero) {
     document.getElementById("imagen").src = "images/a" + numero + ".jpg";
   }
 });
 
-let historial = []; // guarda las últimas imágenes
-const LIMITE = 20;  // cuántas evitar repetir
+// Evitar repetición
+let historial = [];
+const LIMITE = 20;
 
+// BOTÓN
 function cambiarImagen() {
   let numero;
 
@@ -35,15 +34,12 @@ function cambiarImagen() {
     numero = Math.floor(Math.random() * 51) + 1;
   } while (historial.includes(numero));
 
-  // Añadir al historial
   historial.push(numero);
 
-  // Mantener solo las últimas 20
   if (historial.length > LIMITE) {
     historial.shift();
   }
 
-  // Cambiar imagen
-  let ruta = "images/a" + numero + ".jpg";
-  document.getElementById("imagen").src = ruta;
+  // 🔥 GUARDAR EN FIREBASE (esto hace que TODOS lo vean)
+  db.ref("imagen").set(numero);
 }
