@@ -1,4 +1,9 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAJQxPN1oyrKOGnlAXQ6Tbr7wjsAxXf-44",
   authDomain: "despedida-soltera-vicky.firebaseapp.com",
@@ -9,9 +14,8 @@ const firebaseConfig = {
   appId: "1:327665852322:web:923df803573c7e23795cfb"
 };
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // Escuchar cambios en tiempo real
 db.ref("imagen").on("value", (snapshot) => {
